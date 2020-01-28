@@ -1,0 +1,59 @@
+version: '2'
+
+services:
+  task3:
+    build: 
+      context: ../
+      dockerfile: ./build/task-3/Dockerfile
+    image: task3-image
+    ports:
+      - "8080:8080"
+    depends_on: 
+      - task1
+      - task2
+    networks:
+      - net1
+
+  task1:
+    build: 
+      context: ../
+      dockerfile: ./build/task-1/Dockerfile
+    image: task1-image
+    ports:
+      - "8081:8081"
+    networks:
+      - net1
+  
+  task2:
+    build: 
+      context: ../
+      dockerfile: ./build/task-2/Dockerfile
+    image: task2-image
+    ports:
+      - "8082:8082"
+    depends_on: 
+      - db
+    networks:
+      - net1
+      - net2
+
+  db:
+    image: postgres:9.4
+    container_name: db
+    ports: ["5432"]
+    volumes:
+      - "db-data:/var/lib/postgresql/data"
+    networks:
+      - net2
+    environment:
+      POSTGRES_PASSWORD: "thanks.123"
+      POSTGRES_USER: "postgres"
+      POSTGRES_DB: "books_db"
+      PG_DATA: /var/lib/postgresql/data"
+      
+volumes:
+  db-data:
+
+networks:
+  net1:
+  net2:
