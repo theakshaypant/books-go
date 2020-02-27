@@ -70,8 +70,8 @@ func viewID(id int) (book.Book, error) {
 
 func insert(bk book.Book) error {
 	_, err := viewID(bk.ID)
-	if err != nil {
-		return err // ID already exists
+	if err == nil {
+		return errors.New("id exists") // ID already exists
 	}
 
 	data, err := view()

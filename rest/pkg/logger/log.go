@@ -1,6 +1,7 @@
 package logger
 
 import (
+	"github.com/rogpeppe/go-internal/lockedfile"
 	"log"
 	"os"
 	"time"
@@ -19,7 +20,7 @@ func Start() {
 
 // End keeps track of the end time of a process request
 func End(task string) {
-	f, _ := os.OpenFile(logfile, os.O_APPEND|os.O_WRONLY, 0666)
+	f, _ := lockedfile.OpenFile(logfile, os.O_APPEND|os.O_WRONLY, 0666)
 	defer f.Close()
 
 	log.SetOutput(f)
