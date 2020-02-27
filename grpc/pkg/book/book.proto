@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package book;
+
+message Book {
+    int32 ID = 1;
+    int32 Revision = 2;
+    string ISBN = 3;
+    string Title = 4;
+    string Author = 5;
+}
+
+message Empty {}
+
+service UpdateData {
+    rpc View(Empty) returns (stream Book) {}
+    rpc ViewID(Book) returns (Book) {}
+    rpc Insert(Book) returns (Empty) {}
+    rpc Update(Book) returns (Empty) {}
+    rpc Delete(Book) returns (Empty) {}
+}
